@@ -124,6 +124,7 @@ stages:
               resourceGroupName: $(ResourceGroupName)
               appSettings: |
                 [
+                  {
                   "Logging": {
                     "LogLevel": {
                       "Default": "Warning"
@@ -132,5 +133,6 @@ stages:
                   "AllowedHosts": "*",
                   "AppSettings": {
                     "LeaderboardFunctionUrl": "http://tailspin-space-game-leaderboard-25630.azurewebsites.net/api/LeaderboardFunction"
+                  }
                   }
                 ]
