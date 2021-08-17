@@ -103,21 +103,8 @@ stages:
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/Tailspin.SpaceGame.LeaderboardFunction.zip'
               runtimeStack: DOCKER|microsoft/azure-functions-dotnet-core3.0:3.0
               startUpCommand: 'func azure functionapp publish $(functionAppName) --no-bundler'
-          # - task: AzureAppServiceSettings@1
-          #   displayName: 'Update web app settings'
-          #   inputs:
-          #     azureSubscription: 'ServiceConnectionTailspinSpaceGame'
-          #     appName: $(WebAppName)
-          #     resourceGroupName: $(ResourceGroupName)
-          #     appSettings: |
-          #       [
-          #         {
-          #           "name": "AppSettings_LeaderboardFunctionUrl",
-          #           "value": "http://$(LeaderboardAppName).azurewebsites.net/api/LeaderboardFunction",
-          #           "slotSetting": false
-          #         }
-          #       ]
           - task: AzureAppServiceSettings@1
+            displayName: 'Update web app settings'
             inputs:
               azureSubscription: 'ServiceConnectionTailspinSpaceGame'
               appName: $(WebAppName)
@@ -125,14 +112,27 @@ stages:
               appSettings: |
                 [
                   {
-                  "Logging": {
-                    "LogLevel": {
-                      "Default": "Warning"
-                    }
-                  },
-                  "AllowedHosts": "*",
-                  "AppSettings": {
-                    "LeaderboardFunctionUrl": "http://tailspin-space-game-leaderboard-25630.azurewebsites.net/api/LeaderboardFunction"
-                  }
+                    "name": "AppSettings__LeaderboardFunctionUrl",
+                    "value": "http://$(LeaderboardAppName).azurewebsites.net/api/LeaderboardFunction",
+                    "slotSetting": false
                   }
                 ]
+          # - task: AzureAppServiceSettings@1
+          #   inputs:
+          #     azureSubscription: 'ServiceConnectionTailspinSpaceGame'
+          #     appName: $(WebAppName)
+          #     resourceGroupName: $(ResourceGroupName)
+          #     appSettings: |
+          #       [
+          #         {
+          #         "Logging": {
+          #           "LogLevel": {
+          #             "Default": "Warning"
+          #           }
+          #         },
+          #         "AllowedHosts": "*",
+          #         "AppSettings": {
+          #           "LeaderboardFunctionUrl": "http://tailspin-space-game-leaderboard-25630.azurewebsites.net/api/LeaderboardFunction"
+          #         }
+          #         }
+          #       ]
