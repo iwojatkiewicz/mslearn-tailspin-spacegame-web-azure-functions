@@ -10,16 +10,20 @@ stages:
   jobs: 
   - job: 'Build'
     displayName: 'Build job'
-    pool:
-      vmImage: 'ubuntu-20.04'
-      demands:
-      - npm
+    # pool:
+    #   vmImage: 'ubuntu-20.04'
+    #   demands:
+    #   - npm
 
     variables:
       wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
       dotnetSdkVersion: '3.x'
 
     steps:
+    - bash: |
+        sudo apt install nodejs npm -y
+        sudo npm install -g gulp-cli
+      displayName: dependencies installing
     - task: UseDotNet@2
       displayName: 'Use .NET SDK $(dotnetSdkVersion)'
       inputs:
@@ -70,8 +74,8 @@ stages:
   dependsOn: Build
   jobs:
   - deployment: Deploy
-    pool:
-      vmImage: 'ubuntu-20.04'
+    # pool:
+    #   vmImage: 'ubuntu-20.04'
     environment: spike
     variables:
     - group: Release
